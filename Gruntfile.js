@@ -43,7 +43,7 @@ module.exports = function (grunt) {
       },
       clean: {
         build:["<%=dest%>"],
-        release: ['<%=dest%>/js/videonotes-chrome.js', '<%=dest%>/css/styles.css']
+        release: ['<%=dest%>/js/videonotes-content_script.js', '<%=dest%>/js/videonotes-background.js', '<%=dest%>/css/styles.css']
       },
       coffeelint: {
         app: ['common/coffee/*.coffee'] 
@@ -54,7 +54,8 @@ module.exports = function (grunt) {
             join: true
           },
           files: {
-            '<%=dest%>/js/videonotes-chrome.js': ['common/coffee/*.coffee'] // 1:1 compile
+            '<%=dest%>/js/videonotes-content_script.js': ['common/coffee/content_script/*.coffee'],
+            '<%=dest%>/js/videonotes-background.js': ['common/coffee/background/*.coffee']
           }
         }
       },   
@@ -62,6 +63,7 @@ module.exports = function (grunt) {
         js: {
           files: {
             '<%=dest%>/js/videonotes-chrome.min.js': '<%=dest%>/js/videonotes-chrome.js',
+            '<%=dest%>/js/videonotes-background.js': '<%=dest%>/js/videonotes-background.js'
           }
         }
       },
@@ -105,7 +107,7 @@ module.exports = function (grunt) {
       },
       watch: {
         scripts: {
-          files: ['common/coffee/*.coffee', 'common/scss/*.scss', '<%= grunt.config.get("environment") %>/manifest.json'],
+          files: ['common/coffee/**/*.coffee', 'common/scss/*.scss', '<%= grunt.config.get("environment") %>/manifest.json'],
           tasks: ['package:local'],
           options: {
             nospawn: true,
