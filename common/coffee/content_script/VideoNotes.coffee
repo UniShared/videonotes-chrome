@@ -1,5 +1,17 @@
 class VideoNotes
     init: ->
+        eventDiv = document.createElement('div')
+        eventDiv.id = 'videonotesEventDiv'
+        document.body.appendChild eventDiv
+
+        loadEvent = new CustomEvent('videonotes::extensionLoaded');
+        window.dispatchEvent(loadEvent);
+
+        eventDiv.addEventListener "videonotes::getSnapshot", (event) ->
+            chrome.runtime.sendMessage dimensions: event.detail.dimensions, (dataUrl) ->
+                snapshotResultEvent = new CustomEvent('videonotes::snapshotResult', {detail: {snapshot:dataUrl}});
+                eventDiv.dispatchEvent(snapshotResultEvent);
+
         @_createHtml()
         
     _createHtml: ->
@@ -124,7 +136,7 @@ class VideoNotes
                 else
                     editor.addEventListener 'videonotes::firstSaved', readyListener
             
-            @container.addEventListener 'webkitTransitionEnd', transitionEnd, false
+            setTimeout transitionEnd, 150
             @container.style.height = maxHeight
 
             collapseIcon.style.display = 'inline'
@@ -146,7 +158,6 @@ class VideoNotes
                 startLinkTitle.innerHTML = 'Creating...'
 
         params = @_getUrlParams()
-
         # If start_videonotes params, start directly
         if params.videonotes_start and params.videonotes_start == '1'
             clickListener params.videonotes_id
