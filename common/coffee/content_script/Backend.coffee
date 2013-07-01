@@ -42,10 +42,9 @@ class Backend
         promise.done (result) =>
             console.log "saved", result.id
 
-            if not @info.id
-                url = @_updateQueryString('videonotes_start', 1)
-                url = @_updateQueryString('videonotes_id', result.id, url)
-                window.history.pushState(null, "", url)
+            url = @_updateQueryString('videonotes_start', 1)
+            url = @_updateQueryString('videonotes_id', result.id, url)
+            window.history.pushState(null, "", url)
                 
             @info.id = result.id
             return
