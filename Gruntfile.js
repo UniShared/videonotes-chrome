@@ -62,7 +62,7 @@ module.exports = function (grunt) {
       uglify: {
         js: {
           files: {
-            '<%=dest%>/js/videonotes-chrome.min.js': '<%=dest%>/js/videonotes-chrome.js',
+            '<%=dest%>/js/videonotes-content_script.min.js': '<%=dest%>/js/videonotes-content_script.js',
             '<%=dest%>/js/videonotes-background.js': '<%=dest%>/js/videonotes-background.js'
           }
         }

@@ -40,24 +40,27 @@ class Editor
         @_autoSave()
       )
 
-    _getCurrentSync: ->
-      if @backend.info.videos[@backend.info.currentVideo]
+    _getCurrentSync: (line) ->
+      if @backend.info.currentVideo
+        currentSync = @backend.info.videos[@backend.info.currentVideo]
+        if not currentSync?
+          currentSync = @backend.info.videos[@backend.info.currentVideo] = {}
+        if line?
+          currentSync[line] = time: null  unless currentSync[line]
+          return currentSync[line]
         @backend.info.videos[@backend.info.currentVideo]
-      else if @backend.info.currentVideo
-        @backend.info.videos[@backend.info.currentVideo] = {}
-      else
-        null
 
     _syncLine: (session, line) ->
       # Is there a video loaded?
       currentSync = @_getCurrentSync()
+      currentSyncLine = @_getCurrentSync(line)
+
       if @backend.info and @backend.info.currentVideo        
         # Is there some texts before and after?
         timestampBefore = undefined
         isLineBefore = false
         timestampAfter = undefined
         isLineAfter = false
-        session.setBreakpoint line
         for lineSynced of currentSync
           if not isLineBefore and lineSynced < line
             isLineBefore = true
@@ -70,21 +73,21 @@ class Editor
           
           # Text before and after
           # Timestamp for this line must be average time between nearest line before/after
-          currentSync[line] = (timestampBefore + timestampAfter) / 2
+          currentSyncLine.time = (timestampBefore + timestampAfter) / 2
         else
           
           # No text or only before / after
           # Using current player time minus a delta
           if parseInt(@ytPlayer.currentTime - 3, 10) > 0
-            currentSync[line] = @ytPlayer.currentTime - 3
+            currentSyncLine.time = @ytPlayer.currentTime - 3
           else
-            currentSync[line] = @ytPlayer.currentTime or 0.01
-        console.log "Setting timestamp", line, currentSync[line], "on", @backend.info.currentVideo
-      
+            currentSyncLine.time = @ytPlayer.currentTime or 0.01
+        console.log "Setting timestamp", line, currentSync[line].time, "on", @backend.info.currentVideo
+        @_updateBreakpoints()
       # No video => mark it anyway, don't want to sync this line
       else
         console.log "No video"
-        currentSync[line] = -1
+        currentSyncLine.time = -1
 
     _unsync: (session, line) ->
       currentSync = @_getCurrentSync()
@@ -95,9 +98,9 @@ class Editor
     _updateBreakpoints: (session) ->
       if session and @backend.info
         session.clearBreakpoints()
-        for sync of @backend.info.videos
-          for line of sync
-            session.setBreakpoint line  if @backend.info.videos[sync][line] > -1
+        for video of @backend.info.videos
+          for line of @backend.info.videos[video]
+            session.setBreakpoint line if @backend.info.videos[video][line].time > -1
 
     _updateEditor: ->
       return unless @backend.info
