@@ -15,6 +15,7 @@
     "grunt-contrib-watch": "~0.4.4",
     "grunt-contrib-jshint": "~0.6.0",
     "grunt-coffeelint": "0.0.6",
-    "grunt-contrib-cssmin": "~0.6.1"
+    "grunt-contrib-cssmin": "~0.6.1",
+    "grunt-zip": "~0.9.2"
   }
 }
