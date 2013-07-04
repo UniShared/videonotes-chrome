@@ -9,7 +9,7 @@ class YoutubePlayer
           if data.info.currentTime
             @currentTime = data.info.currentTime 
           if data.info.videoData and data.info.videoData.video_id
-            @currentVideoURL = 'www.youtube.com/watch?v=' + data.info.videoData.video_id               
+            @currentVideoURL = 'http://www.youtube.com/watch?v=' + data.info.videoData.video_id               
       )
 
   getCurrentVideoURL: ->
