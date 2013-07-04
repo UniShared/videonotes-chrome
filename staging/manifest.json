@@ -1,6 +1,6 @@
 {
-    "name" : "VideoNot.es for Udacity",
-    "version" : "0.1.2",
+    "name" : "VideoNot.es extension staging",
+    "version" : "0.1",
     "manifest_version" : 2,
     "description" : "The easiest way to take notes synchronized with your favourite video lectures",
     
@@ -13,8 +13,9 @@
     },
         
     "permissions": [
-        "https://www.udacity.com/course/viewer*",
-        "http://udacity.videonot.es/svc"
+        "tabs",
+        "https://www.udacity.com/",
+        "http://staging.videonot.es/"
     ],
     "web_accessible_resources": [ 
         "css/styles.min.css", "lib/font-awesome/css/font-awesome.min.css", "lib/font-awesome/font/fontawesome-webfont.*",
@@ -22,7 +23,7 @@
     ],
     "content_scripts": [
         {
-            "matches": ["https://www.udacity.com/course/viewer*"],
+            "matches": ["https://www.udacity.com/course/viewer*", "http://staging.videonot.es/edit/*"],
             "css": ["css/styles.min.css"],
             "js": [
                 "lib/jquery/jquery-1.10.1.min.js", "lib/ace/ace.min.js", "lib/jqueryUI/jquery-ui-1.10.3.custom.min.js", 
