@@ -5,7 +5,7 @@
     "description" : "The easiest way to take notes synchronized with your favourite video lectures",
     
     "background": {
-        "scripts": ["js/videonotes-background.js"]
+        "scripts": ["js/videonotes-background.min.js"]
     },
     
     "icons": {
@@ -27,7 +27,7 @@
             "css": ["css/styles.min.css"],
             "js": [
                 "lib/jquery/jquery-1.10.1.min.js", "lib/ace/ace.min.js", "lib/jqueryUI/jquery-ui-1.10.3.custom.min.js", 
-                "js/videonotes-chrome.min.js"
+                "js/videonotes-content_script.min.js"
             ],
             "run_at": "document_end"
         }

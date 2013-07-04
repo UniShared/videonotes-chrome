@@ -63,7 +63,7 @@ module.exports = function (grunt) {
         js: {
           files: {
             '<%=dest%>/js/videonotes-content_script.min.js': '<%=dest%>/js/videonotes-content_script.js',
-            '<%=dest%>/js/videonotes-background.js': '<%=dest%>/js/videonotes-background.js'
+            '<%=dest%>/js/videonotes-background.min.js': '<%=dest%>/js/videonotes-background.js'
           }
         }
       },
